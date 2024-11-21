@@ -1,0 +1,57 @@
+package views 
+
+templ template() {
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+            <script src="https://cdn.tailwindcss.com"></script>
+            <script src="https://unpkg.com/htmx.org@2.0.3"
+                integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq"
+                crossorigin="anonymous"></script>
+                <script src="https://unpkg.com/htmx.org"></script>
+                <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
+        </head>
+        <body>
+            {children...}
+        </body>
+    </html>
+}
+
+templ Home(amount string, searchOn, addNew bool) {
+    @template() {
+    <div class="flex flex-col justify-center items-center">
+        <h1 class="text-2xl py-5 text-center">Welcome to Search Settings</h1>
+        <form class="flex flex-center flex-col justify-center items-center gap-5 py-5" hx-post="/"
+            hx-target="#feedback" hx-indicator="#indicator">
+            <label class="input input-bordered flex items-center gap-2 w-full">
+                Urls per hour:
+                <input type="text" value={amount} class="grow" name="amount" />
+            </label>
+        <div class="flex flex-col">
+            <div class="form-control w-52">
+                <label class="label cursor-pointer">
+                    <span class="label-text">Search On</span>
+                    <input type="checkbox" checked?={searchOn} class="toggle toggle-primary" checked="checked" name="searchOn"/>
+                </label>
+            </div>
+            <div class="form-control w-52">
+                <label class="label cursor-pointer">
+                    <span class="label-text">Add New Urls</span>
+                    <input type="checkbox" checked?={addNew} class="toggle toggle-secondary" checked="checked" name="addNewUrls" />
+                </label>
+            </div>
+        </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <div id="indicator" class="htmx-indicator">
+            <div class="flex justify-center items-center w-full">
+                <span class="loading loading-spinner loading-lg text-primary h-20 w-20"></span>
+            </div>
+        </div>
+        <div id="feedback"></div>
+    </div>
+    }
+}

@@ -11,6 +11,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/joho/godotenv"
+	"github.com/xelathan/mini_search_engine/db"
+	"github.com/xelathan/mini_search_engine/routes"
+	"github.com/xelathan/mini_search_engine/utils"
 )
 
 func main() {
@@ -31,6 +34,9 @@ func main() {
 	})
 
 	app.Use(compress.New())
+	db.InitDB()
+	routes.SetRoutes(app)
+	utils.StartCronJobs()
 
 	errChannel := make(chan error, 1)
 
